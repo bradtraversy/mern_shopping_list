@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { returnErrors } from './errorActions';
-
 import {
   USER_LOADED,
   USER_LOADING,
@@ -11,9 +10,10 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL
 } from './types';
+import { IAuthFunction, IConfigHeaders } from '../../types/interfaces';
 
 // Check token & load user
-export const loadUser = () => (dispatch, getState) => {
+export const loadUser = () => (dispatch: Function, getState: Function) => {
   // User loading
   dispatch({ type: USER_LOADING });
 
@@ -34,7 +34,9 @@ export const loadUser = () => (dispatch, getState) => {
 };
 
 // Register User
-export const register = ({ name, email, password }) => dispatch => {
+export const register = ({ name, email, password }: IAuthFunction) => (
+  dispatch: Function
+) => {
   // Headers
   const config = {
     headers: {
@@ -46,7 +48,7 @@ export const register = ({ name, email, password }) => dispatch => {
   const body = JSON.stringify({ name, email, password });
 
   axios
-    .post('/api/users', body, config)
+    .post('/api/auth/register', body, config)
     .then(res =>
       dispatch({
         type: REGISTER_SUCCESS,
@@ -64,7 +66,9 @@ export const register = ({ name, email, password }) => dispatch => {
 };
 
 // Login User
-export const login = ({ email, password }) => dispatch => {
+export const login = ({ email, password }: IAuthFunction) => (
+  dispatch: Function
+) => {
   // Headers
   const config = {
     headers: {
@@ -76,7 +80,7 @@ export const login = ({ email, password }) => dispatch => {
   const body = JSON.stringify({ email, password });
 
   axios
-    .post('/api/auth', body, config)
+    .post('/api/auth/login', body, config)
     .then(res =>
       dispatch({
         type: LOGIN_SUCCESS,
@@ -101,12 +105,12 @@ export const logout = () => {
 };
 
 // Setup config/headers and token
-export const tokenConfig = getState => {
+export const tokenConfig = (getState: Function) => {
   // Get token from localstorage
   const token = getState().auth.token;
 
   // Headers
-  const config = {
+  const config: IConfigHeaders = {
     headers: {
       'Content-type': 'application/json'
     }
