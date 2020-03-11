@@ -59,7 +59,7 @@ router.delete('/:id', auth, async (req, res) => {
       throw Error('Something went wrong while trying to delete the item');
 
     res.status(200).json({ success: true });
-  } catch (error) {
+  } catch (e) {
     res.status(400).json({ msg: e.message, success: false });
   }
 });
