@@ -22,9 +22,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.5.0",
-    "mongoose": "^5.1.6"
-  },
-  "devDependencies": {
+    "mongoose": "^5.1.6",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-loader": "8.0.6",
