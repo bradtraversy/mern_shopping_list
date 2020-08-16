@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",
-    "start": "nodemon server.js --exec babel-node --presets babel-preset-env",
+    "start": "./node_modules/.bin/babel-node server.js --presets babel-preset-env",
     "server": "nodemon server.js --exec babel-node --presets babel-preset-env",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
