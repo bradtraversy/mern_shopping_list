@@ -1,4 +1,6 @@
 {
   "mongoURI": "PUT_YOUR_MONGO_URI",
-  "jwtSecret": "sl_myJwtSecret"
+  "jwtSecret": "sl_myJwtSecret",
+  "defaultAdminEmail": "yourname@yourdomain.com",
+  "defaultAdminPassword": "PUT_YOUR_SECRET"
 }
