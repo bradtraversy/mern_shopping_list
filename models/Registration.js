@@ -18,7 +18,7 @@ const RegistrationSchema = new Schema({
     type: String,
     required: true
   },
-  ssn: {
+  ssnData: {
     type: String,
     required: true
   },

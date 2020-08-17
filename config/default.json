@@ -1,5 +1,6 @@
 {
-  "mongoURI": "PUT_YOUR_MONGO_URI",
+  "mongoURI": "mongodb+srv://cluster0.zwbi0.mongodb.net",
+  "mongoDbName": "frontusers",
   "jwtSecret": "sl_myJwtSecret",
   "defaultAdminEmail": "yourname@yourdomain.com",
   "defaultAdminPassword": "PUT_YOUR_SECRET"

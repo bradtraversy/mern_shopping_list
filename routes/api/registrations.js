@@ -1,14 +1,17 @@
 import { Router } from 'express';
+
+import aesEncryption from '../../helpers/aesEncryption'
 import auth from '../../middleware/auth';
 // Item Model
 import Registration from '../../models/Registration';
+
 
 const router = Router();
 
 /**
  * @route   GET api/registrations
- * @desc    Get All Items
- * @access  Public
+ * @desc    Get All registrations
+ * @access  Private
  */
 
 router.get('/', auth, async (req, res) => {
@@ -16,10 +19,12 @@ router.get('/', auth, async (req, res) => {
     const { page = 1, limit = 100 } = req.query
     const count = await Registration.count({});
     const registrations = await Registration.find()
+    .select({
+      ssnData: 0
+    })
     .limit(limit)
     .skip((page - 1) * limit);
     if (!registrations) throw Error('No registrations');
-
     res.status(200).json({
       data: registrations,
       metaData: {
@@ -34,17 +39,21 @@ router.get('/', auth, async (req, res) => {
 /**
  * @route   GET api/registrations/:id
  * @desc    Get full details of registration
- * @access  Public
+ * @access  Private
  */
 
 router.get('/:id', auth, async (req, res) => {
   try {
-    const includeSsn = Object.getOwnPropertyDescriptor('includeSsn')
-    const registration = await Registration.find({
-      _id: id
+    const { id } = req.params
+    const includeSsn = Object.getOwnPropertyDescriptor(req.query, 'includeSsn')
+    const registration = await Registration.findById(id).select({
+      ...(!includeSsn && { ssnData: 0 })
     });
     if (!registration) throw Error('No registrations');
-
+    if(includeSsn) {
+      registration._doc.ssn = aesEncryption.decrypt(registration.ssnData)
+      delete registration._doc.ssnData
+    }
     res.status(200).json({data: registration});
   } catch (e) {
     res.status(400).json({ msg: e.message });
@@ -52,9 +61,9 @@ router.get('/:id', auth, async (req, res) => {
 });
 
 /**
- * @route   POST api/items
- * @desc    Create An Item
- * @access  Private
+ * @route   POST api/registration
+ * @desc    Create A Registration
+ * @access  Public
  */
 
 router.post('/', async (req, res) => {
@@ -71,13 +80,13 @@ router.post('/', async (req, res) => {
     lastName,
     phoneNumber,
     address,
-    ssn,
+    ssnData: aesEncryption.encrypt(ssn),
     registerDate
   });
 
   try {
     const registration = await newRegistration.save();
-    if (!item) throw Error('Something went wrong saving the item');
+    if (!registration) throw Error('Something went wrong saving the registration');
 
     res.status(200).json({ msg: 'Registration successful'});
   } catch (e) {

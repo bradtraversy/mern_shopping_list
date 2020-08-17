@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",
-    "start": "./node_modules/.bin/babel-node server.js --presets babel-preset-env",
-    "server": "nodemon server.js --exec babel-node --presets babel-preset-env",
+    "start": "nodemon server.js --exec babel-node --presets @babel/preset-env",
+    "server": "nodemon server.js --exec babel-node --presets babel-preset-env ",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
@@ -14,6 +14,10 @@
   "author": "Brad Traversy",
   "license": "MIT",
   "dependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/node": "^7.10.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "concurrently": "^3.6.0",
@@ -23,10 +27,6 @@
     "express": "^4.16.3",
     "jsonwebtoken": "^8.5.0",
     "mongoose": "^5.1.6",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-loader": "8.0.6",
-    "babel-preset-env": "^1.7.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.17.5"
   }
