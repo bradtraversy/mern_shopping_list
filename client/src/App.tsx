@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import AppNavbar from './components/AppNavbar';
-import ShoppingList from './components/ShoppingList';
-import ItemModal from './components/ItemModal';
-import { Container } from 'reactstrap';
 
 import { Provider } from 'react-redux';
 import store from './flux/store';
@@ -10,6 +8,7 @@ import { loadUser } from './flux/actions/authActions';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import AppContent from './components/AppContent';
 
 const App = () => {
   useEffect(() => {
@@ -18,13 +17,12 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <div className="App">
-        <AppNavbar />
-        <Container>
-          <ItemModal />
-          <ShoppingList />
-        </Container>
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <AppNavbar />
+          <AppContent />
+        </div>
+      </BrowserRouter>
     </Provider>
   );
 };

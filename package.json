@@ -28,6 +28,8 @@
     "jsonwebtoken": "^8.5.0",
     "mongoose": "^5.1.6",
     "morgan": "^1.9.1",
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.17.5",
+    "react-data-table-component": "^6.11.0",
+    "styled-components": "^5.1.1"
   }
 }

@@ -16,13 +16,14 @@ const router = Router();
 
 router.get('/', auth, async (req, res) => {
   try {
-    const { page = 1, limit = 100 } = req.query
+    const page = parseInt(req.query.page || 1)
+    const limit =  parseInt(req.query.limit || 100)
     const count = await Registration.count({});
     const registrations = await Registration.find()
     .select({
       ssnData: 0
     })
-    .limit(limit)
+    .limit(parseInt(limit))
     .skip((page - 1) * limit);
     if (!registrations) throw Error('No registrations');
     res.status(200).json({

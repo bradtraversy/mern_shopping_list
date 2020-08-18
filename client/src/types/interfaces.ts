@@ -62,6 +62,41 @@ export interface IAppNavbar {
   };
 }
 
+// Registrations
+export interface IRegistration {
+  _id: string,
+  firstName: string,
+  lastName: string,
+  phoneNumber: string,
+  address: string,
+  ssn: string
+}
+
+export interface IRegistrationReduxProps extends IAuthReduxProps {
+  registration: {
+    registrations: IRegistration[];
+    count: number;
+    loading: boolean;
+    registrationLoading: boolean,
+    registration: IRegistration
+  };
+}
+interface paginationParam {
+  page: number;
+  limit: number
+}
+export interface IRegistrationList {
+  registration: {
+    registrations: IRegistration[];
+    count: number;
+    loading: boolean;
+    registrationLoading: boolean;
+    registration: IRegistration;
+  }
+  getRegistrations({ page, limit }: paginationParam): void
+  getRegistration(id: string): void
+}
+
 // ITEMS
 export interface IExistingItem {
   _id: string;
@@ -115,3 +150,9 @@ export interface IAction {
   type: string;
   payload?: any;
 }
+
+export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =
+    Pick<T, Exclude<keyof T, Keys>> 
+    & {
+        [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
+    }[Keys]

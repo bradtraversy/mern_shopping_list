@@ -9,7 +9,6 @@ import {
   Container
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import RegisterModal from './auth/RegisterModal';
 import LoginModal from './auth/LoginModal';
 import Logout from './auth/Logout';
 import { IAppNavbar, IAuthReduxProps } from '../types/interfaces';
@@ -24,7 +23,7 @@ const AppNavbar = ({ auth }: IAppNavbar) => {
       <NavItem>
         <span className="navbar-text mr-3">
           <strong>
-            {auth && auth.user ? `Welcome ${auth.user.name}` : ''}
+            {auth && auth.user ? `Welcome ${auth.user.email}` : ''}
           </strong>
         </span>
       </NavItem>
@@ -37,9 +36,6 @@ const AppNavbar = ({ auth }: IAppNavbar) => {
   const guestLinks = (
     <Fragment>
       <NavItem>
-        <RegisterModal />
-      </NavItem>
-      <NavItem>
         <LoginModal />
       </NavItem>
     </Fragment>
@@ -49,7 +45,7 @@ const AppNavbar = ({ auth }: IAppNavbar) => {
     <div>
       <Navbar color="dark" dark expand="sm" className="mb-5">
         <Container>
-          <NavbarBrand href="/">ShoppingList</NavbarBrand>
+          <NavbarBrand href="/">Front Users</NavbarBrand>
           <NavbarToggler onClick={handleToggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="ml-auto" navbar>
