@@ -59,6 +59,20 @@ const RegistrationForm = () => {
     description: '',
     onAction: () => {}
   })
+  const showAlert = (title: string, description: string) => {
+    setAlertModalProps(ps => ({
+      ...ps,
+      title,
+      description,
+      show: true,
+      onAction: () => {
+        setAlertModalProps(ps => ({
+          ...ps,
+          show: false
+        }))
+      }
+    }))
+  }
   const handleOnSubmit = async (e: any) => {
     e.preventDefault();
     setSubmitState(ps => ({
@@ -66,18 +80,7 @@ const RegistrationForm = () => {
       submitted: true
     }))
     if(!newRegistration.firstName || !newRegistration.lastName || !newRegistration.phoneNumber || !newRegistration.address || !newRegistration.ssn) {
-      return setAlertModalProps(ps => ({
-        ...ps,
-        title: 'Invalid registration data',
-        description: 'Please enter valid info.',
-        show: true,
-        onAction: () => {
-          setAlertModalProps(ps => ({
-            ...ps,
-            show: false
-          }))
-        }
-      }))
+      return showAlert('Invalid registration data', 'Invalid registration data')
     }
     try {
       await axios
@@ -87,7 +90,13 @@ const RegistrationForm = () => {
         submitSuccess: true
       }))
     } catch(ex) {
-      alert('Unable to register')
+      console.log(ex)
+      console.log(ex.status)
+      console.log(ex.data)
+      if(ex.response && ex.response.status === 400 && ex.response.data) {
+        return showAlert('Unable to register', ex.response.data.msg)
+      }
+      showAlert('Unable to register', 'Unable to register')
     }
   };
 
@@ -106,35 +115,53 @@ const RegistrationForm = () => {
           <Form onSubmit={e => handleOnSubmit(e)}>
             <FormGroup>
               <Label for="exampleEmail">First Name</Label>
-              <Input invalid={submitState.submitted && newRegistration.firstName === ''} onChange={e => e.target && setNewRegistration(ps => ({
+              <Input invalid={submitState.submitted && newRegistration.firstName === ''} onChange={e => {
+                const { value } = e.target
+                setNewRegistration(ps => ({
                 ...ps,
-                firstName: e.target.value
-              }))} value={newRegistration.firstName} />
+                firstName: value
+              }))}} value={newRegistration.firstName} />
               <FormFeedback valid={newRegistration.firstName !== ''}>Please enter first name</FormFeedback>
             </FormGroup>
             <FormGroup>
               <Label for="exampleEmail">Last Name</Label>
-              <Input invalid={submitState.submitted && newRegistration.firstName === ''} onChange={e => e.target && setNewRegistration(ps => ({
+              <Input invalid={submitState.submitted && newRegistration.lastName === ''} onChange={e => {
+                const { value } = e.target
+                setNewRegistration(ps => ({
                 ...ps,
-                lastName: e.target.value
-              }))} value={newRegistration.lastName} />
+                lastName: value
+              }))}} value={newRegistration.lastName} />
               <FormFeedback valid={newRegistration.lastName !== ''}>Please enter last name</FormFeedback>
             </FormGroup>
             <FormGroup>
-              <Label for="exampleEmail">Phone Number</Label>
-              <Input invalid={submitState.submitted && newRegistration.phoneNumber === ''} onChange={e => e.target && setNewRegistration(ps => ({
+              <Label for="exampleEmail">SSN</Label>
+              <Input invalid={submitState.submitted && newRegistration.ssn === ''} onChange={e => {
+                const { value } = e.target
+                setNewRegistration(ps => ({
                 ...ps,
-                phoneNumber: e.target.value
-              }))} value={newRegistration.phoneNumber} />
+                ssn: value
+              }))}} value={newRegistration.ssn} />
+              <FormFeedback valid={newRegistration.ssn !== ''}>Please enter SSN</FormFeedback>
+            </FormGroup>
+            <FormGroup>
+              <Label for="exampleEmail">Phone Number</Label>
+              <Input invalid={submitState.submitted && newRegistration.phoneNumber === ''} onChange={e => {
+                const { value } = e.target
+                setNewRegistration(ps => ({
+                ...ps,
+                phoneNumber: value
+              }))}} value={newRegistration.phoneNumber} />
               <FormFeedback valid={newRegistration.lastName !== ''}>Please enter phone number</FormFeedback>
             </FormGroup>
             <FormGroup>
-              <Label for="exampleEmail">SSN</Label>
-              <Input invalid={submitState.submitted && newRegistration.ssn === ''} onChange={e =>  e.target && setNewRegistration(ps => ({
+              <Label for="exampleEmail">Address</Label>
+              <Input invalid={submitState.submitted && newRegistration.address === ''} onChange={e => {
+                const { value } = e.target
+                setNewRegistration(ps => ({
                 ...ps,
-                ssn: e.target.value
-              }))} value={newRegistration.ssn} />
-              <FormFeedback valid={newRegistration.lastName !== ''}>Please enter phone number</FormFeedback>
+                address: value
+              }))}} value={newRegistration.address} />
+              <FormFeedback valid={newRegistration.lastName !== ''}>Please enter address</FormFeedback>
             </FormGroup>
             <Button>Register</Button>
           </Form>

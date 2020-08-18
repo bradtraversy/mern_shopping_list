@@ -4,6 +4,7 @@ import aesEncryption from '../../helpers/aesEncryption'
 import auth from '../../middleware/auth';
 // Item Model
 import Registration from '../../models/Registration';
+import { postRegistration } from '../../middleware/Registration';
 
 
 const router = Router();
@@ -67,7 +68,7 @@ router.get('/:id', auth, async (req, res) => {
  * @access  Public
  */
 
-router.post('/', async (req, res) => {
+router.post('/', postRegistration, async (req, res) => {
   const {
     firstName,
     lastName,
@@ -81,7 +82,7 @@ router.post('/', async (req, res) => {
     lastName,
     phoneNumber,
     address,
-    ssnData: aesEncryption.encrypt(ssn),
+    ssnData: aesEncryption.encrypt(ssn.toUpperCase()),
     registerDate
   });
 

@@ -45,7 +45,7 @@ app.use('/api/registrations', registrationRoutes);
 app.use('/api/auth', authRoutes);
 
 // Serve static assets if in production
-if (process.env.NODE_ENV === 'production') {x
+if (process.env.NODE_ENV === 'production') {
   // Set static folder
   app.use(express.static('client/build'));
 

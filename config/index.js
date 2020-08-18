@@ -11,5 +11,6 @@ export default {
     email: process.env.DEFAULT_ADMIN_EMAIL,
     password: process.env.DEFAULT_ADMIN_PASSWORD
   },
-  ENCRYPTION_KEY: process.env.ENCRYPTION_KEY
+  ENCRYPTION_KEY: process.env.ENCRYPTION_KEY,
+  ENCRYPTION_IV: process.env.ENCRYPTION_IV
 };
