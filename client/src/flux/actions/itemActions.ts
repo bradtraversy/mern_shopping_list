@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING } from './types';
+import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING, EDIT_ITEM } from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 import { IItem } from '../../types/interfaces';
@@ -18,6 +18,21 @@ export const getItems = () => (dispatch: Function) => {
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 };
+
+export const editItem = (item: IItem) => (dispatch: Function) => {
+  let id:string = item._id!;
+  axios
+    .put(`/api/items/${id}`, item)
+    .then(res => {
+      dispatch({
+        type: EDIT_ITEM,
+        payload: res.data,
+      })
+    })
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+}
 
 export const addItem = (item: IItem) => (
   dispatch: Function,
