@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
-import { getItems, deleteItem } from '../flux/actions/itemActions';
+import { getItems, deleteItem} from '../flux/actions/itemActions';
 import { IItemReduxProps, IShoppingList } from '../types/interfaces';
 
 const ShoppingList = ({
   getItems,
   item,
   isAuthenticated,
-  deleteItem
+  deleteItem,
 }: IShoppingList) => {
   useEffect(() => {
     getItems();
@@ -27,16 +27,20 @@ const ShoppingList = ({
           {items.map(({ _id, name }) => (
             <CSSTransition key={_id} timeout={500} classNames="fade">
               <ListGroupItem>
-                {isAuthenticated ? (
-                  <Button
-                    className="remove-btn"
-                    color="danger"
-                    size="sm"
-                    onClick={() => handleDelete(_id)}
-                  >
-                    &times;
-                  </Button>
-                ) : null}
+                {isAuthenticated && (
+                  <>
+                    <Button
+                      className="remove-btn"
+                      color="danger"
+                      size="sm"
+                      onClick={() => handleDelete(_id)}
+                      style={{ marginRight: '0.5rem' }}
+                    >
+                      &times;
+                    </Button>
+            
+                  </>
+                )}
                 {name}
               </ListGroupItem>
             </CSSTransition>
@@ -49,7 +53,9 @@ const ShoppingList = ({
 
 const mapStateToProps = (state: IItemReduxProps) => ({
   item: state.item,
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { getItems, deleteItem })(ShoppingList);
+export default connect(mapStateToProps, { getItems, deleteItem})(
+  ShoppingList
+);

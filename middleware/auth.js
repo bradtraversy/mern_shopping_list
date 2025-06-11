@@ -1,22 +1,28 @@
 import jwt from 'jsonwebtoken';
-import config from '../config';
+import config from '../config/index.js';
+import User from '../models/User.js';
 
 const { JWT_SECRET } = config;
 
-export default (req, res, next) => {
+export default async (req, res, next) => {
+  // Token header se lo
   const token = req.header('x-auth-token');
-
-  // Check for token
-  if (!token)
-    return res.status(401).json({ msg: 'No token, authorization denied' });
+  if (!token) return res.status(401).json({ message: 'Please Login' });
 
   try {
-    // Verify token
     const decoded = jwt.verify(token, JWT_SECRET);
-    // Add user from payload
-    req.user = decoded;
+    const user = await User.findById(decoded.id);
+
+    if (!user) return res.status(401).json({ message: 'User not found' });
+
+    req.user = {
+      id: user._id,
+      username: user.username,
+      role: user.role,
+    };
+
     next();
-  } catch (e) {
-    res.status(400).json({ msg: 'Token is not valid' });
+  } catch (err) {
+    res.status(401).json({ message: 'Unauthorized' });
   }
 };

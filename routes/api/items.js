@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import auth from '../../middleware/auth';
+import auth from '../../middleware/auth.js';
 // Item Model
-import Item from '../../models/Item';
+import Item from '../../models/Item.js';
 
 const router = Router();
 
@@ -30,9 +30,8 @@ router.get('/', async (req, res) => {
 
 router.post('/', auth, async (req, res) => {
   const newItem = new Item({
-    name: req.body.name
+    name: req.body.name,
   });
-
   try {
     const item = await newItem.save();
     if (!item) throw Error('Something went wrong saving the item');
