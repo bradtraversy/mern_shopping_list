@@ -44,6 +44,23 @@ router.post('/', auth, async (req, res) => {
 });
 
 /**
+ * @route   PUT api/items/:id
+ * @desc    Updates An Item
+ * @access  Private
+ */
+router.put('/:id', auth, (req, res) => {
+  Item.findById(req.params.id)
+    .then(item => {
+      item.name = req.body.name ? req.body.name : item.name
+      item.save();
+      res.status(200).json({ msg: "Item updated Successfully " })
+    })
+    .catch(err => {
+      res.status(400).json({ msg: err.message })
+    })
+})
+
+/**
  * @route   DELETE api/items/:id
  * @desc    Delete A Item
  * @access  Private
