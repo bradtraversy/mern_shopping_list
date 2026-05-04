@@ -23,6 +23,22 @@ router.get('/', async (req, res) => {
 });
 
 /**
+ * @route   PUT api/items
+ * @desc    Update An Item
+ * @access  Private
+ */
+
+router.put('/:id', auth, async (req, res) => {
+  Item.findOneAndUpdate({_id: req.params.id},
+    {$set: req.body},
+    { upsert: true},
+    (err, newItem) => {
+        if(err) throw err;
+        res.json(newItem);
+    })
+});
+
+/**
  * @route   POST api/items
  * @desc    Create An Item
  * @access  Private

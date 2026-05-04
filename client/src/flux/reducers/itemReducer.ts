@@ -2,7 +2,8 @@ import {
   GET_ITEMS,
   ADD_ITEM,
   DELETE_ITEM,
-  ITEMS_LOADING
+  ITEMS_LOADING,
+  EDIT_ITEM,
 } from '../actions/types';
 import { IAction, IItem } from '../../types/interfaces';
 
@@ -38,6 +39,11 @@ export default function(state: IState = initialState, action: IAction) {
         ...state,
         loading: true
       };
+    case EDIT_ITEM: 
+      return {
+        ...state,
+        items: state.items.map(item => item._id === action.payload._id ? action.payload : item)
+      }
     default:
       return state;
   }

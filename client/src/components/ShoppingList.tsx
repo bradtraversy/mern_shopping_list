@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
-import { getItems, deleteItem } from '../flux/actions/itemActions';
-import { IItemReduxProps, IShoppingList } from '../types/interfaces';
+import { getItems, deleteItem, editItem } from '../flux/actions/itemActions';
+import { IExistingItem, IItemReduxProps, IShoppingList } from '../types/interfaces';
 
 const ShoppingList = ({
   getItems,
@@ -19,23 +19,37 @@ const ShoppingList = ({
     deleteItem(id);
   };
 
+  const handleEdit = (item: IExistingItem) => {
+    editItem(item);
+  }
+
   const { items } = item;
   return (
     <Container>
       <ListGroup>
         <TransitionGroup className="shopping-list">
-          {items.map(({ _id, name }) => (
-            <CSSTransition key={_id} timeout={500} classNames="fade">
+          {items.map((item) => (
+            <CSSTransition key={item._id} timeout={500} classNames="fade">
               <ListGroupItem>
                 {isAuthenticated ? (
-                  <Button
-                    className="remove-btn"
-                    color="danger"
-                    size="sm"
-                    onClick={() => handleDelete(_id)}
-                  >
-                    &times;
-                  </Button>
+                  <div>
+                    <Button
+                      className="remove-btn"
+                      color="danger"
+                      size="sm"
+                      onClick={() => handleDelete(item._id)}
+                    >
+                      &times;
+                    </Button>
+                    <Button 
+                      className="ml-2 mr-2"
+                      color="info"
+                      size="sm"
+                      onClick={() => handleEdit(item)}
+                    >
+                      Edit
+                    </Button>
+                  </div>
                 ) : null}
                 {name}
               </ListGroupItem>
