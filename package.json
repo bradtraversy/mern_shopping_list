@@ -15,21 +15,21 @@
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "concurrently": "^3.6.0",
-    "config": "^3.0.1",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.16.3",
-    "jsonwebtoken": "^8.5.0",
-    "mongoose": "^5.1.6"
+    "body-parser": "^1.20.5",
+    "concurrently": "^3.6.1",
+    "config": "^3.3.12",
+    "cors": "^2.8.6",
+    "dotenv": "^8.6.0",
+    "express": "^4.22.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.23"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
-    "babel-loader": "^8.0.6",
+    "babel-loader": "^8.4.1",
     "babel-preset-env": "^1.7.0",
-    "morgan": "^1.9.1",
-    "nodemon": "^1.17.5"
+    "morgan": "^1.10.1",
+    "nodemon": "^1.19.4"
   }
 }
